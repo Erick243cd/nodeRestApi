@@ -1,3 +1,5 @@
+const { MongoClient, Db} = require('mongodb');
+
 var client = null;
 
 function connection(url, callback) {
@@ -16,7 +18,7 @@ function connection(url, callback) {
 }
 
 function bd() {
-    return new Db(client, 'dbOk')
+    return new Db(client,'restapinodejsDb');
 }
 
 function closeConnection() {
@@ -26,4 +28,4 @@ function closeConnection() {
     }
 }
 
-module.exports = { connection, bd, closeConnection };
+module.exports = { connection, bd, client, closeConnection };
