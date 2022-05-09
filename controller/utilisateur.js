@@ -34,4 +34,21 @@ const getUsers = async (req, res) => {
     }
 }
 
-module.exports = { addUser, getUsers };
+
+const getUser = async (req, res) => {
+    try {
+      let id = new ObjectID(req.params.id);
+      let cursor = client.db().collection("users").find({ _id: id });
+      let result = await cursor.toArray();
+      if (result.length > 0) {
+        res.status(200).json(result[0]);
+      } else {
+        res.status(204).json({ msg: "Cet utilisateur n'existe pas" });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(501).json(error);
+    }
+  };
+
+module.exports = { addUser, getUsers, getUser };
