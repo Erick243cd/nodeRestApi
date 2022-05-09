@@ -51,4 +51,27 @@ const getUser = async (req, res) => {
     }
   };
 
-module.exports = { addUser, getUsers, getUser };
+
+  const updateUser = async (req, res) => {
+    try {
+      let id = new ObjectID(req.params.id);
+      let fullname = req.body.fullname;
+      let adress = req.body.adress;
+      let phone = req.body.phone;
+      let result = await client
+        .bd()
+        .collection("users")
+        .updateOne({ _id: id }, { $set: { fullname, adress, phone } });
+  
+      if (result.modifiedCount === 1) {
+        res.status(200).json({ msg: "Modification réussie" });
+      } else {
+        res.status(404).json({ msg: "Cet utilisateur n'existe pas" });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(501).json(error);
+    }
+  };
+
+module.exports = { addUser, getUsers, getUser, updateUser };
