@@ -2,7 +2,7 @@ const { User } = require("../model/utilisateur")
 
 const client = require('../config/db');
 
-const bodyParser = require('body-parser');
+const { ObjectID } = require("bson");
 
 
 const addUser = async (req, res) => {
@@ -38,7 +38,7 @@ const getUsers = async (req, res) => {
 const getUser = async (req, res) => {
     try {
       let id = new ObjectID(req.params.id);
-      let cursor = client.db().collection("users").find({ _id: id });
+      let cursor = client.bd().collection("users").find({ _id: id });
       let result = await cursor.toArray();
       if (result.length > 0) {
         res.status(200).json(result[0]);
