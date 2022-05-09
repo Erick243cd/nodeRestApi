@@ -74,4 +74,23 @@ const getUser = async (req, res) => {
     }
   };
 
-module.exports = { addUser, getUsers, getUser, updateUser };
+  const deleteUser = async (req, res) => {
+    try {
+      let id = new ObjectID(req.params.id);
+      let result = await client
+        .bd()
+        .collection("users")
+        .deleteOne({ _id: id });
+      if (result.deletedCount === 1) {
+        res.status(200).json({ msg: "Suppression réussie" });
+      } else {
+        res.status(404).json({ msg: "Cet utilisateur n'existe pas" });
+      }
+    } catch (error) {
+      console.log(error);
+  
+      res.status(501).json(error);
+    }
+  };
+
+module.exports = { addUser, getUsers, getUser, updateUser , deleteUser};
